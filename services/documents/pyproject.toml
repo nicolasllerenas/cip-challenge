@@ -1,0 +1,18 @@
+[project]
+name = "cip-documents"
+version = "0.1.0"
+description = "Generación de .docx, Markdown y BibTeX con citas y bibliografía"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "cip-contracts",
+    "fastapi>=0.115",
+    "uvicorn>=0.32",
+    "python-docx>=1.2",
+]
+
+[tool.uv.sources]
+cip-contracts = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.9,<0.14"]
+build-backend = "uv_build"
