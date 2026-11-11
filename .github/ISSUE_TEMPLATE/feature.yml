@@ -1,0 +1,27 @@
+name: Funcionalidad
+description: Proponer una funcionalidad o mejora
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema de la investigadora
+      description: ¿Qué necesita lograr y qué se lo impide hoy?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Propuesta
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Criterios de aceptación
+      value: "- [ ] "
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options: [desktop, gateway, library, agents, documents, infra]
