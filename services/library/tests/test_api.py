@@ -70,6 +70,7 @@ def test_search_returns_citable_passages_ranked_by_relevance(client: TestClient,
     assert response.status_code == 200
     assert passages[0]["metadata"]["doi"] == "10.5555/spp.2019.0142"
     assert passages[0]["page"] >= 1
+    assert passages[0]["file_path"].endswith("stomatal-aba-andean-potato.pdf")
     assert all("late blight" not in passage["text"].lower() for passage in passages)
 
 
