@@ -1,0 +1,146 @@
+@import "tailwindcss";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource/atkinson-hyperlegible/400.css";
+@import "@fontsource/atkinson-hyperlegible/700.css";
+@import "@fontsource/atkinson-hyperlegible/400-italic.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@theme {
+  --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-paper: var(--paper);
+  --color-sheet: var(--sheet);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-wash: var(--accent-wash);
+  --color-moss: var(--moss);
+  --color-moss-wash: var(--moss-wash);
+  --color-ochre: var(--ochre);
+  --color-ochre-wash: var(--ochre-wash);
+  --color-brick: var(--brick);
+  --color-brick-wash: var(--brick-wash);
+}
+
+:root {
+  --paper: #f3eee3;
+  --sheet: #fbf8f1;
+  --ink: #1c2620;
+  --ink-soft: #56625b;
+  --rule: #ddd3c1;
+  --accent: #bf4d1d;
+  --accent-ink: #973b12;
+  --accent-wash: #f5e1d2;
+  --moss: #2c6649;
+  --moss-wash: #dbeadf;
+  --ochre: #855600;
+  --ochre-wash: #f4e5c0;
+  --brick: #a02e1d;
+  --brick-wash: #f5d9d1;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #131915;
+    --sheet: #1b221d;
+    --ink: #ece6d8;
+    --ink-soft: #a7b0a8;
+    --rule: #323f37;
+    --accent: #ef8a55;
+    --accent-ink: #f5a67b;
+    --accent-wash: #3a2417;
+    --moss: #82c7a0;
+    --moss-wash: #1a3327;
+    --ochre: #e6b552;
+    --ochre-wash: #372c12;
+    --brick: #f08c7b;
+    --brick-wash: #3b1e19;
+  }
+}
+
+html {
+  font-size: var(--ui-scale, 100%);
+}
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  background-image: var(--grain);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+[data-screen-title]:focus-visible {
+  outline: none;
+}
+
+::selection {
+  background: var(--accent-wash);
+}
+
+.font-display {
+  font-variation-settings: "SOFT" 60, "WONK" 0;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.rise {
+  animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.breathe {
+  animation: breathe 1.6s ease-in-out infinite;
+}
+
+.underline-partial {
+  text-decoration: underline dotted var(--ochre);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.underline-unsupported {
+  text-decoration: underline wavy var(--brick);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
