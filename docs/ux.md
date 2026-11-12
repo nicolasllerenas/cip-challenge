@@ -20,7 +20,7 @@ Una investigadora en mejoramiento genético de papa. Es experta en su dominio, n
 | 2–3 | Biblioteca | ¿Leyó todos mis PDFs? | Progreso archivo por archivo; problemas primero y con acción (OCR, volver a descargar, completar metadatos); puede pedir el borrador antes del 100 % |
 | 4 | Solicitud | ¿Cómo se lo pido? | Lenguaje natural con ejemplos; pocas opciones (extensión, idioma, desde año); *Qué voy a hacer* con método y tiempo esperado; `Ctrl+Enter` |
 | 5 | Progreso | ¿Está avanzando? | Etapas en lenguaje humano; la estructura aparece primero (cancelar si no es el enfoque); fuentes en vivo; cancelación con confirmación en línea; aviso de reconexión |
-| 6 | Revisión | ¿Puedo confiar? | Prosa continua; solo lo dudoso subrayado (punteado = parcial, ondulado = sin respaldo); panel con pasaje, página, términos coincidentes y motivo; atajos `A`/`E`/`X`/`N`; contador *Revisaste n de m* |
+| 6 | Revisión | ¿Puedo confiar? | Prosa continua; solo lo dudoso subrayado (punteado = parcial, ondulado = sin respaldo); panel con pasaje, página, términos coincidentes y motivo; **visor de PDF integrado** que abre la página citada con el pasaje resaltado; atajos `A`/`E`/`X`/`N`; contador *Revisaste n de m* |
 | 7 | Exportar | ¿Queda listo para Word? | `.docx` con estilos nativos, APA 7, bibliografía, declaración de IA y comentarios de Word en lo pendiente; Markdown + BibTeX para LaTeX; no se bloquea la exportación |
 
 ![Revisión](img/05-revision.png)

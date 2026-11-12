@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from fpdf import FPDF
+from fpdf.enums import XPos, YPos
 
 from cip_testkit.papers import PAPERS, SyntheticPaper
 
@@ -21,27 +22,29 @@ def write_paper(paper: SyntheticPaper, target: Path) -> Path:
         pdf.add_page()
         if number == 1:
             pdf.set_font("Helvetica", size=8)
-            pdf.multi_cell(width, 4, f"{paper.journal} | https://doi.org/{paper.doi}")
+            pdf.multi_cell(
+                width, 4, f"{paper.journal} | https://doi.org/{paper.doi}", new_x=XPos.LMARGIN, new_y=YPos.NEXT
+            )
             pdf.ln(4)
             pdf.set_font("Helvetica", style="B", size=15)
-            pdf.multi_cell(width, 7, paper.title)
+            pdf.multi_cell(width, 7, paper.title, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             pdf.ln(2)
             pdf.set_font("Helvetica", size=10)
-            pdf.multi_cell(width, 5, _author_line(paper))
-            pdf.multi_cell(width, 5, f"Published: 15 March {paper.year}")
+            pdf.multi_cell(width, 5, _author_line(paper), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+            pdf.multi_cell(width, 5, f"Published: 15 March {paper.year}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             pdf.ln(4)
         pdf.set_font("Helvetica", size=11)
         for paragraph in paragraphs:
-            pdf.multi_cell(width, 6, paragraph)
+            pdf.multi_cell(width, 6, paragraph, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             pdf.ln(3)
         pdf.set_font("Helvetica", style="I", size=7)
-        pdf.multi_cell(width, 4, DISCLAIMER)
+        pdf.multi_cell(width, 4, DISCLAIMER, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     if paper.references:
         pdf.set_font("Helvetica", style="B", size=11)
-        pdf.multi_cell(width, 6, "References")
+        pdf.multi_cell(width, 6, "References", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         pdf.set_font("Helvetica", size=9)
         for reference in paper.references:
-            pdf.multi_cell(width, 5, reference)
+            pdf.multi_cell(width, 5, reference, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     destination = target / f"{paper.slug}.pdf"
     pdf.output(str(destination))
     return destination

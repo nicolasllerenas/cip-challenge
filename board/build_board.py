@@ -286,7 +286,7 @@ def review(b: Board, k: Kit, x: float, y: float) -> None:
         12,
         INK,
     )
-    b.text(px + 32, y + 466, "📄 Abrir PDF (p. 4)     ↗ doi:10.5555/spp.2019.0142", 12, ACCENT)
+    b.text(px + 32, y + 466, "🔍 Ver en el PDF (p. 4): visor con el pasaje resaltado   ↗ doi", 12, ACCENT)
 
 
 def export(b: Board, k: Kit, x: float, y: float) -> None:

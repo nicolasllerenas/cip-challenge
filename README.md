@@ -23,6 +23,7 @@ Este repositorio muestra cómo fluye esa solicitud de punta a punta, con el dise
 | ![Bienvenida](docs/img/01-bienvenida.png) **Bienvenida**: qué pasa con sus PDFs antes de pedirle nada | ![Biblioteca](docs/img/02-biblioteca.png) **Biblioteca**: progreso por archivo y problemas explicados con una acción |
 | ![Solicitud](docs/img/03-solicitud.png) **Solicitud** en lenguaje natural, con pocas opciones | ![Progreso](docs/img/04-progreso.png) **Progreso en vivo**: estructura, fuentes y verificación |
 | ![Revisión](docs/img/05-revision.png) **Revisión**: cada afirmación con su pasaje y página | ![Exportar](docs/img/06-exportar.png) **Exportar** a `.docx` con comentarios de revisión |
+| ![Visor de PDF](docs/img/07-visor-pdf.png) **Visor de PDF**: la cita en su página, con el pasaje resaltado | |
 
 ## La arquitectura
 
