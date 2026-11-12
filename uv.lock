@@ -7,6 +7,7 @@ members = [
     "cip-agents",
     "cip-contracts",
     "cip-documents",
+    "cip-gateway",
     "cip-library",
     "cip-research-assistant",
     "cip-testkit",
@@ -164,6 +165,27 @@ requires-dist = [
     { name = "cip-contracts", editable = "packages/contracts" },
     { name = "fastapi", specifier = ">=0.115" },
     { name = "python-docx", specifier = ">=1.2" },
+    { name = "uvicorn", specifier = ">=0.32" },
+]
+
+[[package]]
+name = "cip-gateway"
+version = "0.1.0"
+source = { editable = "services/gateway" }
+dependencies = [
+    { name = "cip-contracts" },
+    { name = "fastapi" },
+    { name = "httpx" },
+    { name = "pydantic-settings" },
+    { name = "uvicorn" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "cip-contracts", editable = "packages/contracts" },
+    { name = "fastapi", specifier = ">=0.115" },
+    { name = "httpx", specifier = ">=0.28" },
+    { name = "pydantic-settings", specifier = ">=2.6" },
     { name = "uvicorn", specifier = ">=0.32" },
 ]
 
