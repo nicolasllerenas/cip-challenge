@@ -4,6 +4,7 @@ import { ApiError, api } from "../api/client";
 import type { Length, LibrarySummary } from "../api/types";
 import { Banner, Button, Kbd, ScreenHeader } from "../components/ui";
 import { useStored } from "../hooks";
+import { prepareNotifications } from "../platform";
 
 const EXAMPLES = [
   "Redáctame un borrador del estado del arte sobre tolerancia a sequía en papa, con citas y bibliografía, en un .docx que pueda editar.",
@@ -85,6 +86,7 @@ export function ComposeScreen({
     if (!library || tooShort) return;
     setSending(true);
     setError(null);
+    void prepareNotifications();
     try {
       const { job_id } = await api.createDraft(library.library_id, prompt.trim(), {
         length,

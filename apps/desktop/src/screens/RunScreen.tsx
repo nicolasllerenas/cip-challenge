@@ -4,6 +4,7 @@ import { api } from "../api/client";
 import { useJobEvents } from "../api/useJobEvents";
 import { Banner, Button, ProgressBar, ScreenHeader } from "../components/ui";
 import { useElapsed } from "../hooks";
+import { notifyInBackground } from "../platform";
 import { STAGES, initialRun, overallProgress, runReducer, type RunStage, type SectionProgress } from "../state/run";
 
 const STEP_COPY: Record<RunStage, { label: string; Icon: typeof Layers }> = {
@@ -81,6 +82,14 @@ export function RunScreen({
   const reviewButton = useRef<HTMLButtonElement>(null);
   const stream = useJobEvents(jobId, (event) => {
     dispatch(event);
+    if (event.type === "job.completed") {
+      const stats = event.data.stats as { claims: number; pending_review: number } | undefined;
+      notifyInBackground(
+        "Tu borrador está listo",
+        stats ? `${stats.claims} afirmaciones · ${stats.pending_review} por revisar` : event.message,
+      );
+    }
+    if (event.type === "job.failed") notifyInBackground("No pude terminar el borrador", event.message);
     if (["stage.started", "stage.completed", "warning", "job.completed", "job.failed", "job.cancelled"].includes(event.type)) {
       setAnnouncement(event.message);
     }
