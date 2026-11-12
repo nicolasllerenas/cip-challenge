@@ -8,7 +8,7 @@ Todo lo que necesitas para grabar el Loom sin sorpresas. El guion con los tiempo
    ```bash
    make install
    ```
-2. **(Recomendado) Activa la IA real.** Sin esto la app funciona igual, pero en *modo demostración*: la barra inferior lo indica y el borrador se arma copiando frases de los PDFs, en inglés.
+2. **(Opcional, tiene costo) Activa la IA real.** No hace falta para el video: sin esto la app funciona en *modo demostración*, sin costo; la barra inferior lo indica y el borrador se arma con frases de los PDFs, en inglés. Si de todos modos quieres IA real:
    1. Crea una API key en [console.anthropic.com → API Keys](https://console.anthropic.com/settings/keys). Necesita saldo; un borrador completo cuesta menos de US$1.
    2. Copia la plantilla y pega tu key después de `ANTHROPIC_API_KEY=`, sin comillas ni espacios:
       ```bash
@@ -29,7 +29,7 @@ Todo lo que necesitas para grabar el Loom sin sorpresas. El guion con los tiempo
    make demo
    ```
 2. En la app: **Mi biblioteca** → la ruta de la carpeta de ejemplo ya está escrita → **Abrir**. Espera a ver *7 artículos listos para citar*.
-3. **Deja un borrador listo**: *Nuevo borrador* → clic en la primera idea → **Redactar borrador**. Con IA real tarda unos minutos; en modo demostración, segundos. En el video muestras el progreso unos segundos y pasas al borrador ya terminado en *Mis borradores*.
+3. **Ensaya un borrador**: *Nuevo borrador* → clic en la primera idea → **Redactar borrador**. En modo demostración tarda segundos, así que en el video puedes hacerlo en vivo; con IA real tarda minutos, así que conviene tenerlo listo antes en *Mis borradores*.
 4. Deja dos pestañas, en este orden: **el tablero** y **la app**.
 5. Navegador a pantalla completa y zoom al 100 %. Activa *No molestar* para que no salgan notificaciones.
 
