@@ -25,9 +25,9 @@ from cip_agents.evidence import (
     build_references,
     cited_passages,
     label_evidence,
+    number_guardrail,
     resolve_citations,
     short_citation,
-    unsupported_numbers,
 )
 from cip_agents.library_client import Library
 from cip_agents.models import LanguageModel
@@ -245,13 +245,12 @@ def build_graph(model: LanguageModel, library: Library, settings: Settings):
                 judgment = judgments.get(claim.claim_id)
                 if judgment is None or not claim.citations:
                     continue
-                verdict, rationale = Verdict(judgment.verdict), judgment.rationale
-                missing = unsupported_numbers(
-                    claim.text, [by_passage[link.passage_id].text for link in claim.citations]
+                verdict, rationale = number_guardrail(
+                    Verdict(judgment.verdict),
+                    judgment.rationale,
+                    claim.text,
+                    [by_passage[link.passage_id].text for link in claim.citations],
                 )
-                if verdict == Verdict.SUPPORTED and missing:
-                    verdict = Verdict.PARTIAL
-                    rationale = f"Los valores {', '.join(missing)} no aparecen en la fuente citada."
                 updates[claim.claim_id] = claim.model_copy(update={"verdict": verdict, "rationale": rationale})
         checked = replace_claims(section, updates)
         verdicts = [claim.verdict for claim in checked.claims()]
