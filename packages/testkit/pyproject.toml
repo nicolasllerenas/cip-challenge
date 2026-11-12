@@ -1,0 +1,10 @@
+[project]
+name = "cip-testkit"
+version = "0.1.0"
+description = "Corpus sintético de artículos en PDF para pruebas y demos"
+requires-python = ">=3.12,<3.13"
+dependencies = ["fpdf2>=2.8"]
+
+[build-system]
+requires = ["uv_build>=0.9,<0.13"]
+build-backend = "uv_build"
