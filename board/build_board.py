@@ -828,6 +828,23 @@ def other_topics(b: Board, k: Kit, top: float) -> None:
     )
 
 
+def quality(b: Board, k: Kit, top: float) -> None:
+    k.card(
+        0,
+        top,
+        2820,
+        160,
+        "Cómo se mide la calidad · make eval (pandas + scikit-learn, corre en cada PR)",
+        [
+            "Recuperación, 14 consultas con su artículo esperado: en inglés recall@1 = 1.00. Preguntando en español: 0.25 con embeddings simples → 1.00 con embeddings multilingües.",
+            "Verificador, 12 afirmaciones etiquetadas: exactitud 0.92. La regla de números atrapa todos los valores alterados.",
+            "Su único error es una contradicción («la prolina fue el mejor predictor»), que solo detecta el verificador con LLM: queda como prueba de regresión.",
+            "Punta a punta: 0 citas fuera de la biblioteca. Si una métrica baja de su umbral, el CI falla y el reporte queda en el resumen del job.",
+        ],
+        TONE_BLUE,
+    )
+
+
 def build(target: Path) -> None:
     board = Board()
     kit = Kit(board)
@@ -839,6 +856,7 @@ def build(target: Path) -> None:
     after_architecture = architecture(board, kit, after_accessibility + 60)
     after_dives = deep_dives(board, kit, after_architecture)
     other_topics(board, kit, after_dives)
+    quality(board, kit, after_dives + 300)
     board.save(target)
 
 
