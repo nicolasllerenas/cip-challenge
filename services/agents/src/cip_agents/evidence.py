@@ -2,7 +2,7 @@ import re
 import unicodedata
 from string import ascii_lowercase
 
-from cip_contracts import CitationLink, Draft, PaperMetadata, Passage, Reference, Section
+from cip_contracts import CitationLink, Draft, PaperMetadata, Passage, Reference, Section, Verdict
 
 NUMBER = re.compile(r"\d+(?:[.,]\d+)?")
 LABEL = re.compile(r"E\d+", re.IGNORECASE)
@@ -46,6 +46,13 @@ def numbers_in(text: str) -> set[str]:
 
 def unsupported_numbers(claim: str, sources: list[str]) -> list[str]:
     return sorted(numbers_in(claim) - numbers_in(" ".join(sources)))
+
+
+def number_guardrail(verdict: Verdict, rationale: str, claim: str, sources: list[str]) -> tuple[Verdict, str]:
+    missing = unsupported_numbers(claim, sources)
+    if verdict == Verdict.SUPPORTED and missing:
+        return Verdict.PARTIAL, f"Los valores {', '.join(missing)} no aparecen en la fuente citada."
+    return verdict, rationale
 
 
 def _ascii_slug(value: str) -> str:

@@ -88,3 +88,20 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - run: docker compose build
+
+  evals:
+    name: Evaluación de calidad
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          enable-cache: true
+          python-version: "3.12"
+      - run: uv sync --all-packages --locked
+      - run: uv run cip-eval --output eval-report.md
+      - if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: reporte-de-evaluacion
+          path: eval-report.md

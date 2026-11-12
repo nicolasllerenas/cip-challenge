@@ -75,9 +75,12 @@ En el navegador, escribe la ruta absoluta de `./samples` en *Mi biblioteca*. En 
 ```bash
 make test           # pytest (servicios + e2e) y Vitest
 make lint           # ruff y tsc
+make eval           # evaluación de calidad: recuperación, verificador y borrador (pandas + scikit-learn)
 ```
 
-CI en cada PR: servicios Python, UI (typecheck, pruebas y build), núcleo Rust (rustfmt + clippy), imágenes Docker e instalador de Windows cuando cambia el empaquetado.
+La evaluación mide recall@k y MRR por idioma, la matriz de confusión del verificador de citas y que ninguna cita del borrador apunte fuera de la biblioteca; detalle y línea base en [`docs/architecture.md`](docs/architecture.md#evaluación-de-calidad).
+
+CI en cada PR: servicios Python, UI (typecheck, pruebas y build), núcleo Rust (rustfmt + clippy), imágenes Docker, evaluación de calidad con reporte en el resumen del job, e instalador de Windows cuando cambia el empaquetado.
 
 ## Estructura
 
@@ -90,6 +93,7 @@ services/documents    .docx, Markdown y BibTeX
 services/sidecar      Los 4 servicios en un proceso para la laptop
 packages/contracts    Contratos Pydantic compartidos
 packages/testkit      Corpus sintético de PDFs para pruebas y demos
+packages/evals        Evaluación de calidad con métricas y umbrales
 tests/e2e             Recorrido completo con los servicios reales
 board                 Tablero de Excalidraw (generado por código)
 docs                  UX, arquitectura, ADRs y guion del video

@@ -112,6 +112,28 @@ flowchart LR
 - **Ingesta incremental** por hash de contenido: reabrir la carpeta es instantáneo y los archivos borrados salen del índice.
 - Cada pasaje conserva `paper_id`, página, archivo y metadatos → la cita APA y el enlace *Abrir PDF (p. N)* salen de ahí.
 
+## Evaluación de calidad
+
+`make eval` (paquete `packages/evals`, con pandas y scikit-learn) mide tres cosas sobre el corpus sintético y falla si alguna cae bajo su umbral. En CI publica el reporte en el resumen de GitHub Actions y como artefacto.
+
+| Suite | Qué mide | Cómo |
+|---|---|---|
+| Recuperación | ¿La evidencia correcta sale primero? | 14 consultas con su artículo esperado (10 en inglés, 4 en español) → recall@1, recall@5, MRR por idioma |
+| Verificador | ¿Detecta afirmaciones con números alterados, temas ajenos o contradicciones? | 12 afirmaciones etiquetadas → exactitud, F1 macro y matriz de confusión |
+| Punta a punta | ¿El borrador queda anclado a la biblioteca? | Borrador completo → % respaldadas, citas por afirmación, fuentes y 0 citas fuera de la biblioteca |
+
+Por defecto no llama a ningún proveedor; `uv run cip-eval --provider anthropic` evalúa el verificador real (tiene costo).
+
+**Línea base (modo sin conexión, embeddings `hashing`):**
+
+| Métrica | Valor | Lectura |
+|---|---|---|
+| Recuperación en inglés: recall@5 / MRR | 1.00 / 1.00 | La búsqueda híbrida encuentra la evidencia correcta y primero |
+| Recuperación con consultas en español: recall@1 / MRR | 0.25 / 0.38 | Con embeddings no multilingües, preguntar en español falla. Por eso el planificador genera las búsquedas en inglés y en producción se usan embeddings multilingües |
+| …con `--embedder fastembed` (`paraphrase-multilingual-MiniLM-L12-v2`) | **1.00 / 1.00** | La misma pregunta en español encuentra el artículo en inglés: la decisión de usar embeddings multilingües, medida |
+| Verificador: exactitud / F1 macro | 0.92 / 0.90 | La regla de números atrapa todos los valores alterados; el único error es una **contradicción** que un verificador léxico no puede detectar: es trabajo del verificador con LLM |
+| Borrador: citas fuera de la biblioteca | 0 | Garantizado por los guardrails |
+
 ## Documento final
 
 - `.docx` con estilos nativos de Word, APA 7 en español (`y`, `et al.`, `s.f.`, desambiguación `2023a/2023b`), bibliografía con sangría francesa y declaración de uso de IA.
