@@ -11,7 +11,7 @@ Este repositorio muestra cómo fluye esa solicitud de punta a punta, con el dise
 | Entregable | Dónde |
 |---|---|
 | Tablero de Excalidraw (wireframes + arquitectura) | [`board/cip-research-assistant.excalidraw`](board/) |
-| Guion del video de 5 minutos | [`docs/video-script.md`](docs/video-script.md) |
+| Guion del video de 5 minutos | [`docs/video-script.md`](docs/video-script.md) · [cómo preparar la grabación](docs/grabacion.md) |
 | Decisiones de UX | [`docs/ux.md`](docs/ux.md) |
 | Arquitectura y profundizaciones | [`docs/architecture.md`](docs/architecture.md) · [ADRs](docs/adr) |
 | Prototipo end-to-end | `apps/` + `services/` |
@@ -52,13 +52,12 @@ Requisitos: [uv](https://docs.astral.sh/uv/), Node 24 con pnpm, y Rust solo para
 
 ```bash
 make install        # dependencias Python (workspace uv) y de la app
-make samples        # corpus sintético de PDFs en ./samples
-make dev            # backend en :8000 y app en http://localhost:1420
+make demo           # corpus de ejemplo + backend en :8000 + app en http://localhost:1420
 ```
 
-En el navegador, escribe la ruta absoluta de `./samples` en *Mi biblioteca*. En la app de escritorio (`cd apps/desktop && pnpm tauri dev`) se elige con el diálogo nativo.
+`make demo` deja escrita la ruta de la carpeta de ejemplo en *Mi biblioteca*: solo haz clic en **Abrir**. En la app de escritorio (`cd apps/desktop && pnpm tauri dev`) la carpeta se elige con el diálogo nativo.
 
-**Con IA real:** exporta `ANTHROPIC_API_KEY` antes de `make dev`. Sin credenciales, el servicio `agents` usa un **modo demostración** extractivo y determinista (lo indica la barra inferior) para recorrer el flujo completo sin enviar datos a ningún proveedor.
+**Con IA real:** `cp .env.example .env`, pega tu `ANTHROPIC_API_KEY` (el archivo nunca se sube) y comprueba con `make check-ai`. Sin credenciales, el servicio `agents` usa un **modo demostración** extractivo y determinista (lo indica la barra inferior) para recorrer el flujo completo sin enviar datos a ningún proveedor.
 
 | Variable | Valor por defecto | Para qué |
 |---|---|---|

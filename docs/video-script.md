@@ -36,7 +36,9 @@ Dilo con tus palabras y con lo que realmente hiciste. Puntos de partida honestos
 
 ## Checklist antes de grabar
 
+La preparación paso a paso está en [`grabacion.md`](grabacion.md).
+
 - [ ] Cámara activa y la pantalla a 100 % de zoom
-- [ ] Tablero abierto en Excalidraw y hecho zoom al encabezado
-- [ ] (Opcional) `make samples && make dev`, con la app abierta en la pantalla de revisión
+- [ ] Tablero abierto en Excalidraw con zoom en el encabezado
+- [ ] `make demo` corriendo, con un borrador ya listo en *Mis borradores*
 - [ ] Ensayar con cronómetro: si pasas de 5:00, recorta la parte de arquitectura, nunca la de UX

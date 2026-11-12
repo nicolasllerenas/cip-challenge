@@ -130,7 +130,7 @@ function PaperRow({ paper, onChanged }: { paper: Paper; onChanged: () => void })
 }
 
 function FolderPicker({ onOpen, busy }: { onOpen: (path: string) => void; busy: boolean }) {
-  const [path, setPath] = useState("");
+  const [path, setPath] = useState<string>(import.meta.env.VITE_DEMO_FOLDER ?? "");
   const choose = async () => {
     const selected = await pickFolder();
     if (selected) onOpen(selected);
