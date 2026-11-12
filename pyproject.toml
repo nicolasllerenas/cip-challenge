@@ -30,6 +30,9 @@ target-version = "py312"
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF", "C4", "PT"]
 ignore = ["RUF001", "RUF002", "RUF003", "SIM905"]
 
+[tool.ruff.lint.per-file-ignores]
+"board/*.py" = ["E501"]
+
 [tool.pytest.ini_options]
 addopts = "--import-mode=importlib -q"
 asyncio_mode = "auto"
