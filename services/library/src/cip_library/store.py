@@ -48,7 +48,7 @@ CREATE TRIGGER IF NOT EXISTS chunks_after_delete AFTER DELETE ON chunks BEGIN
 END;
 """
 
-PASSAGE_COLUMNS = "c.passage_id, c.paper_id, c.page, c.text, p.file_name, p.metadata"
+PASSAGE_COLUMNS = "c.passage_id, c.paper_id, c.page, c.text, p.file_name, p.file_path, p.metadata"
 
 
 def _year_allowed(metadata: PaperMetadata, year_from: int | None) -> bool:
@@ -217,6 +217,7 @@ class LibraryStore:
                 page=row["page"],
                 text=row["text"],
                 file_name=row["file_name"],
+                file_path=row["file_path"],
                 metadata=PaperMetadata.model_validate_json(row["metadata"]),
             )
             for row in rows

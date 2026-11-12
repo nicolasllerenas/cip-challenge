@@ -76,6 +76,7 @@ class Passage(BaseModel):
     text: str
     score: float = 0.0
     file_name: str = ""
+    file_path: str = ""
     metadata: PaperMetadata = Field(default_factory=PaperMetadata)
 
 

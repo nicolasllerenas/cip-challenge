@@ -7,6 +7,9 @@ REFERENCES_HEADING = re.compile(
     r"^\s*(references|bibliography|literature cited|referencias|bibliografía)\s*$",
     re.IGNORECASE | re.MULTILINE,
 )
+NOISE_LINE = re.compile(
+    r"https?://|doi\.org|^\s*(received|accepted|published|available online|©|copyright)\b", re.IGNORECASE
+)
 MIN_CHUNK_CHARS = 60
 
 
@@ -15,6 +18,10 @@ class Chunk:
     ordinal: int
     page: int
     text: str
+
+
+def strip_noise(page: str) -> str:
+    return "\n".join(line for line in page.splitlines() if not NOISE_LINE.search(line))
 
 
 def strip_references(pages: list[str]) -> list[str]:
@@ -35,7 +42,7 @@ class PageChunker:
     def split(self, pages: list[str]) -> list[Chunk]:
         chunks: list[Chunk] = []
         for page_number, text in enumerate(strip_references(pages), start=1):
-            for piece in self._splitter.split_text(text):
+            for piece in self._splitter.split_text(strip_noise(text)):
                 cleaned = " ".join(piece.split())
                 if len(cleaned) >= MIN_CHUNK_CHARS:
                     chunks.append(Chunk(ordinal=len(chunks), page=page_number, text=cleaned))

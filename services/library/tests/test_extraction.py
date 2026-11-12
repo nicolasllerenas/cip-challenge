@@ -51,6 +51,17 @@ def test_reference_section_is_not_indexed():
     assert strip_references(pages) == ["Intro text", "Results text\n"]
 
 
+def test_front_matter_noise_is_not_indexed():
+    finding = "Drought limits potato yield in rainfed systems of the Andean highlands."
+    page = f"Journal | https://doi.org/10.5555/x\nPublished: 15 March 2019\n{finding}"
+
+    chunks = PageChunker(chunk_size=500, chunk_overlap=0).split([page])
+
+    assert [chunk.text for chunk in chunks] == [
+        "Drought limits potato yield in rainfed systems of the Andean highlands."
+    ]
+
+
 def test_chunks_keep_their_page_number():
     pages = ["A" * 10 + " first page sentence that is long enough to be kept.", "Second page " * 20]
 

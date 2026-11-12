@@ -26,3 +26,58 @@ jobs:
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run pytest
+
+  desktop-ui:
+    name: App de escritorio · UI
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/desktop
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: apps/desktop/package.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: apps/desktop/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+  desktop-rust:
+    name: App de escritorio · Rust
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/desktop
+    steps:
+      - uses: actions/checkout@v7
+      - run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: apps/desktop/src-tauri
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: apps/desktop/package.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: apps/desktop/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile && pnpm build
+      - name: Placeholder del sidecar para compilar sin empaquetar
+        run: |
+          mkdir -p src-tauri/binaries
+          touch src-tauri/binaries/cip-backend-x86_64-unknown-linux-gnu
+          chmod +x src-tauri/binaries/cip-backend-x86_64-unknown-linux-gnu
+      - run: cargo fmt --check
+        working-directory: apps/desktop/src-tauri
+      - run: cargo clippy --all-targets -- -D warnings
+        working-directory: apps/desktop/src-tauri

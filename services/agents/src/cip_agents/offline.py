@@ -105,7 +105,12 @@ class OfflineModel:
         focus = " ".join(plan.queries)
         sentences = []
         for item in evidence[:6]:
-            candidates = [sentence for sentence in SENTENCE.split(item.text) if len(sentence) > 40]
+            first_author = item.citation.split(",")[0].split()[0]
+            candidates = [
+                sentence
+                for sentence in SENTENCE.split(item.text)
+                if 40 < len(sentence) < 280 and first_author not in sentence
+            ]
             if candidates:
                 best = max(candidates, key=lambda sentence: overlap(focus, sentence))
                 sentences.append(DraftedSentence(text=best, evidence=[item.label]))
