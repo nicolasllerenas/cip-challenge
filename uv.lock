@@ -10,6 +10,7 @@ members = [
     "cip-gateway",
     "cip-library",
     "cip-research-assistant",
+    "cip-sidecar",
     "cip-testkit",
 ]
 
@@ -244,6 +245,27 @@ dev = [
     { name = "pytest", specifier = ">=8.3" },
     { name = "pytest-asyncio", specifier = ">=0.24" },
     { name = "ruff", specifier = ">=0.8" },
+]
+
+[[package]]
+name = "cip-sidecar"
+version = "0.1.0"
+source = { editable = "services/sidecar" }
+dependencies = [
+    { name = "cip-agents" },
+    { name = "cip-documents" },
+    { name = "cip-gateway" },
+    { name = "cip-library" },
+    { name = "uvicorn" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "cip-agents", editable = "services/agents" },
+    { name = "cip-documents", editable = "services/documents" },
+    { name = "cip-gateway", editable = "services/gateway" },
+    { name = "cip-library", editable = "services/library" },
+    { name = "uvicorn", specifier = ">=0.32" },
 ]
 
 [[package]]
