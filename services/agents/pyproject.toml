@@ -13,6 +13,9 @@ dependencies = [
     "pydantic-settings>=2.6",
 ]
 
+[project.scripts]
+cip-check-ai = "cip_agents.check:main"
+
 [tool.uv.sources]
 cip-contracts = { workspace = true }
 

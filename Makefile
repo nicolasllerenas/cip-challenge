@@ -1,7 +1,10 @@
+-include .env
+export
+
 SIDECAR_DIR := apps/desktop/src-tauri/binaries
 TRIPLE := $(shell rustc -vV 2>/dev/null | sed -n 's/host: //p')
 
-.PHONY: install test lint format samples eval backend desktop dev sidecar docker-up docker-down
+.PHONY: install test lint format samples eval check-ai demo backend desktop dev sidecar docker-up docker-down
 
 install:
 	uv sync --all-packages
@@ -25,6 +28,14 @@ samples:
 
 eval:
 	uv run cip-eval --output eval-report.md
+
+check-ai:
+	uv run cip-check-ai
+
+demo: samples
+	@echo "Carpeta de ejemplo: $(abspath samples)"
+	@(sleep 8 && uv run python -m webbrowser http://localhost:1420 > /dev/null) &
+	VITE_DEMO_FOLDER="$(abspath samples)" $(MAKE) -j2 backend desktop
 
 backend:
 	CIP_DATA_DIR=.data uv run cip-backend
