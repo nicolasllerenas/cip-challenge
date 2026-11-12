@@ -1,5 +1,7 @@
 # Asistente de Investigación CIP
 
+[![CI](https://github.com/nicolasllerenas/cip-challenge/actions/workflows/ci.yml/badge.svg)](https://github.com/nicolasllerenas/cip-challenge/actions/workflows/ci.yml)
+
 Propuesta para el reto técnico del CIP (*Practicante de IA y Desarrollo Full-Stack*). Una investigadora en mejoramiento genético de papa elige su carpeta con ~200 PDFs y pide:
 
 > *“Redáctame un borrador del estado del arte sobre tolerancia a sequía en papa, con citas y bibliografía, en un .docx que pueda editar.”*
