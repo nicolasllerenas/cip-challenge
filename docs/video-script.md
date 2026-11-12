@@ -4,6 +4,8 @@ Graba la pantalla con la cámara activada. Ten abierto el tablero en Excalidraw 
 
 > Regla de tiempos: **≈ 3:00 en UX** (el corazón del reto), **≈ 1:20 en arquitectura**, **≈ 0:30 en uso de IA**.
 
+> Si muestras la app en modo demostración, dilo una vez al abrirla: *“Esta demo corre en modo demostración: sin IA externa ni costo, arma el borrador con frases de los PDFs de un corpus de prueba. En producción, el mismo flujo redacta con Claude.”*
+
 | Tiempo | Dónde | Qué decir |
 |---|---|---|
 | **0:00 – 0:20** | Cámara + encabezado del tablero | “Soy [nombre]. Diseñé cómo una investigadora en mejoramiento genético de papa pasa de una carpeta con 200 PDFs a un estado del arte en Word con citas que puede verificar. Primero la experiencia, que es donde está el valor; luego la arquitectura.” |
