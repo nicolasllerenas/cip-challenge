@@ -34,3 +34,30 @@ export async function openExternal(url: string): Promise<void> {
   const { openUrl } = await import("@tauri-apps/plugin-opener");
   await openUrl(url);
 }
+
+export async function prepareNotifications(): Promise<void> {
+  try {
+    if (inDesktop()) {
+      const { isPermissionGranted, requestPermission } = await import("@tauri-apps/plugin-notification");
+      if (!(await isPermissionGranted())) await requestPermission();
+      return;
+    }
+    if ("Notification" in window && Notification.permission === "default") await Notification.requestPermission();
+  } catch {
+    return;
+  }
+}
+
+export async function notifyInBackground(title: string, body: string): Promise<void> {
+  if (!document.hidden && document.hasFocus()) return;
+  try {
+    if (inDesktop()) {
+      const { isPermissionGranted, sendNotification } = await import("@tauri-apps/plugin-notification");
+      if (await isPermissionGranted()) sendNotification({ title, body });
+      return;
+    }
+    if ("Notification" in window && Notification.permission === "granted") new Notification(title, { body });
+  } catch {
+    return;
+  }
+}

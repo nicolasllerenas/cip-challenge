@@ -2,9 +2,11 @@ import { ArrowDownToLine, Check, ExternalLink, FileSearch, Info, Pencil, RotateC
 import { Fragment, Suspense, lazy, useCallback, useEffect, useMemo, useState } from "react";
 import { ApiError, api, type ClaimAction } from "../api/client";
 import type { Claim, Draft, Passage } from "../api/types";
+import { Toast, type ToastState } from "../components/Toast";
 import { Banner, Button, Eyebrow, Kbd, VerdictBadge } from "../components/ui";
 import { openExternal } from "../platform";
 import { allClaims, citationLabels, needsReview, parenthetical, sharedTerms } from "../state/citations";
+import { REVIEW_MESSAGES, undoSteps } from "../state/review";
 import { ExportDialog } from "./ExportDialog";
 
 const WORD = /([\p{L}\d]+)/u;
@@ -229,6 +231,23 @@ export function ReviewScreen({ draftId }: { draftId: string }) {
   const [error, setError] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [toast, setToast] = useState<ToastState | null>(null);
+  const dismissToast = useCallback(() => setToast(null), []);
+
+  const undo = useCallback(async (draftId: string, previous: Claim, action: ClaimAction) => {
+    setToast(null);
+    try {
+      let latest: Draft | null = null;
+      for (const step of undoSteps(previous, action)) {
+        latest = await api.review(draftId, previous.claim_id, step.action, step.text);
+      }
+      if (latest) setDraft(latest);
+      setSelected(previous.claim_id);
+      setToast({ id: Date.now(), message: "Deshice el último cambio" });
+    } catch (failure) {
+      setError(failure instanceof ApiError ? failure.message : "No pude deshacer el cambio.");
+    }
+  }, []);
 
   useEffect(() => {
     setDraft(null);
@@ -263,22 +282,33 @@ export function ReviewScreen({ draftId }: { draftId: string }) {
       if (!draft || !current) return;
       setBusy(true);
       setError(null);
+      const previous = current;
       try {
-        setDraft(await api.review(draft.draft_id, current.claim_id, action, text));
+        setDraft(await api.review(draft.draft_id, previous.claim_id, action, text));
         setEditing(false);
+        setToast({
+          id: Date.now(),
+          message: REVIEW_MESSAGES[action],
+          onUndo: () => undo(draft.draft_id, previous, action),
+        });
       } catch (failure) {
         setError(failure instanceof ApiError ? failure.message : "No pude guardar tu revisión.");
       } finally {
         setBusy(false);
       }
     },
-    [draft, current],
+    [draft, current, undo],
   );
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement;
       const typing = ["TEXTAREA", "INPUT"].includes(target.tagName);
+      if (!typing && toast?.onUndo && (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "z") {
+        event.preventDefault();
+        toast.onUndo();
+        return;
+      }
       if (typing || event.metaKey || event.ctrlKey || exporting || document.querySelector("dialog[open]")) return;
       const key = event.key.toLowerCase();
       if (key === "n") goNext();
@@ -291,7 +321,7 @@ export function ReviewScreen({ draftId }: { draftId: string }) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [goNext, act, current, exporting]);
+  }, [goNext, act, current, exporting, toast]);
 
   if (error && !draft) return <div className="p-10"><Banner kind="error" title={error} /></div>;
   if (!draft) return <p className="p-10 text-ink-soft">Abriendo tu borrador…</p>;
@@ -408,6 +438,7 @@ export function ReviewScreen({ draftId }: { draftId: string }) {
       </aside>
 
       <ExportDialog draft={draft} open={exporting} onClose={() => setExporting(false)} pending={pending.length} />
+      <Toast toast={toast} onDismiss={dismissToast} />
     </div>
   );
 }
