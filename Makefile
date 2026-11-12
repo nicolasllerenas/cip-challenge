@@ -1,7 +1,7 @@
 SIDECAR_DIR := apps/desktop/src-tauri/binaries
 TRIPLE := $(shell rustc -vV 2>/dev/null | sed -n 's/host: //p')
 
-.PHONY: install test lint format samples backend desktop dev sidecar docker-up docker-down
+.PHONY: install test lint format samples eval backend desktop dev sidecar docker-up docker-down
 
 install:
 	uv sync --all-packages
@@ -22,6 +22,9 @@ format:
 
 samples:
 	uv run python -c "from pathlib import Path; from cip_testkit import build_corpus; build_corpus(Path('samples'))"
+
+eval:
+	uv run cip-eval --output eval-report.md
 
 backend:
 	CIP_DATA_DIR=.data uv run cip-backend
