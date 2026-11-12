@@ -130,6 +130,7 @@ Por defecto no llama a ningún proveedor; `uv run cip-eval --provider anthropic`
 |---|---|---|
 | Recuperación en inglés: recall@5 / MRR | 1.00 / 1.00 | La búsqueda híbrida encuentra la evidencia correcta y primero |
 | Recuperación con consultas en español: recall@1 / MRR | 0.25 / 0.38 | Con embeddings no multilingües, preguntar en español falla. Por eso el planificador genera las búsquedas en inglés y en producción se usan embeddings multilingües |
+| …con `--embedder fastembed` (`paraphrase-multilingual-MiniLM-L12-v2`) | **1.00 / 1.00** | La misma pregunta en español encuentra el artículo en inglés: la decisión de usar embeddings multilingües, medida |
 | Verificador: exactitud / F1 macro | 0.92 / 0.90 | La regla de números atrapa todos los valores alterados; el único error es una **contradicción** que un verificador léxico no puede detectar: es trabajo del verificador con LLM |
 | Borrador: citas fuera de la biblioteca | 0 | Garantizado por los guardrails |
 
