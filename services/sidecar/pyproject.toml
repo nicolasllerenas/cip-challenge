@@ -1,0 +1,25 @@
+[project]
+name = "cip-sidecar"
+version = "0.1.0"
+description = "Ejecuta los microservicios en un solo proceso local para la app de escritorio"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "cip-library",
+    "cip-agents",
+    "cip-documents",
+    "cip-gateway",
+    "uvicorn>=0.32",
+]
+
+[project.scripts]
+cip-backend = "cip_sidecar.main:main"
+
+[tool.uv.sources]
+cip-library = { workspace = true }
+cip-agents = { workspace = true }
+cip-documents = { workspace = true }
+cip-gateway = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.9,<0.14"]
+build-backend = "uv_build"

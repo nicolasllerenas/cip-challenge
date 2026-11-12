@@ -81,3 +81,10 @@ jobs:
         working-directory: apps/desktop/src-tauri
       - run: cargo clippy --all-targets -- -D warnings
         working-directory: apps/desktop/src-tauri
+
+  docker:
+    name: Imágenes Docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker compose build

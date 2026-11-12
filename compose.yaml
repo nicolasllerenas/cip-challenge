@@ -1,0 +1,43 @@
+name: cip-research-assistant
+
+services:
+  gateway:
+    build: { context: ., dockerfile: deploy/docker/service.Dockerfile, args: { SERVICE: gateway } }
+    restart: unless-stopped
+    ports: ["8000:8000"]
+    environment:
+      CIP_GATEWAY_LIBRARY_URL: http://library:8000
+      CIP_GATEWAY_AGENTS_URL: http://agents:8000
+      CIP_GATEWAY_DOCUMENTS_URL: http://documents:8000
+      CIP_GATEWAY_DATA_DIR: /data/gateway
+      CIP_GATEWAY_EXPORTS_DIR: /data/exports
+    volumes: [data:/data]
+    depends_on:
+      library: { condition: service_healthy }
+      agents: { condition: service_healthy }
+      documents: { condition: service_healthy }
+
+  library:
+    build: { context: ., dockerfile: deploy/docker/service.Dockerfile, args: { SERVICE: library } }
+    restart: unless-stopped
+    environment:
+      CIP_LIBRARY_DATA_DIR: /data/library
+      CIP_LIBRARY_CROSSREF_ENABLED: ${CIP_LIBRARY_CROSSREF_ENABLED:-false}
+    volumes:
+      - data:/data
+      - ${PDF_LIBRARY:-./samples}:/library:ro
+
+  agents:
+    build: { context: ., dockerfile: deploy/docker/service.Dockerfile, args: { SERVICE: agents } }
+    restart: unless-stopped
+    environment:
+      CIP_AGENTS_LIBRARY_URL: http://library:8000
+      CIP_AGENTS_LLM_PROVIDER: ${CIP_AGENTS_LLM_PROVIDER:-auto}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+
+  documents:
+    build: { context: ., dockerfile: deploy/docker/service.Dockerfile, args: { SERVICE: documents } }
+    restart: unless-stopped
+
+volumes:
+  data:
