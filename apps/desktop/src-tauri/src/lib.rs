@@ -25,7 +25,9 @@ fn start_backend(app: &AppHandle) -> Result<(), Box<dyn std::error::Error>> {
         .env("CIP_EXPORTS_DIR", exports_dir)
         .spawn()?;
     tauri::async_runtime::spawn(async move { while events.recv().await.is_some() {} });
-    *app.state::<Backend>().0.lock().map_err(|_| "backend lock poisoned")? = Some(child);
+    let state = app.state::<Backend>();
+    let mut backend = state.0.lock().map_err(|_| "backend lock poisoned")?;
+    *backend = Some(child);
     Ok(())
 }
 
