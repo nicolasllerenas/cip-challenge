@@ -15,6 +15,7 @@ members = ["packages/*", "services/*"]
 dev = [
     "pytest>=8.3",
     "ruff>=0.8",
+    "pytest-asyncio>=0.24",
     "cip-testkit",
 ]
 
@@ -31,4 +32,6 @@ ignore = ["RUF001", "RUF002", "RUF003", "SIM905"]
 
 [tool.pytest.ini_options]
 addopts = "--import-mode=importlib -q"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 testpaths = ["packages", "services"]
