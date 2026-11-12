@@ -72,6 +72,7 @@ export const api = {
   exportDraft: (draftId: string, format: ExportFormat, includeReviewComments: boolean) =>
     post<ExportResult>(`/v1/drafts/${draftId}/exports`, { format, include_review_comments: includeReviewComments }),
   eventsUrl: (jobId: string) => `${gatewayBase()}/v1/jobs/${jobId}/events`,
+  paperFileUrl: (paperId: string) => `${gatewayBase()}/v1/papers/${paperId}/file`,
   paperUrl: (paperId: string, page: number) => `${gatewayBase()}/v1/papers/${paperId}/file#page=${page}`,
   absolute: (url: string) => `${gatewayBase()}${url}`,
 };

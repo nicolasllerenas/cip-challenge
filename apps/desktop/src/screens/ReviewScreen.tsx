@@ -1,13 +1,14 @@
-import { ArrowDownToLine, Check, ExternalLink, FileText, Info, Pencil, RotateCcw, SkipForward, Trash2 } from "lucide-react";
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { ArrowDownToLine, Check, ExternalLink, FileSearch, Info, Pencil, RotateCcw, SkipForward, Trash2 } from "lucide-react";
+import { Fragment, Suspense, lazy, useCallback, useEffect, useMemo, useState } from "react";
 import { ApiError, api, type ClaimAction } from "../api/client";
 import type { Claim, Draft, Passage } from "../api/types";
 import { Banner, Button, Eyebrow, Kbd, VerdictBadge } from "../components/ui";
-import { openExternal, openLocalFile } from "../platform";
+import { openExternal } from "../platform";
 import { allClaims, citationLabels, needsReview, parenthetical, sharedTerms } from "../state/citations";
 import { ExportDialog } from "./ExportDialog";
 
 const WORD = /([\p{L}\d]+)/u;
+const PdfViewer = lazy(() => import("../components/PdfViewer").then((module) => ({ default: module.PdfViewer })));
 
 function Highlighted({ text, terms }: { text: string; terms: Set<string> }) {
   return (
@@ -37,6 +38,7 @@ const VERDICT_SPOKEN = { supported: "respaldada", partial: "con respaldo parcial
 
 function SourceCard({ passage, label, claim }: { passage: Passage; label: string; claim: Claim }) {
   const terms = useMemo(() => sharedTerms(claim.text, passage.text), [claim.text, passage.text]);
+  const [viewing, setViewing] = useState(false);
   return (
     <li className="rise rounded-xl border border-rule bg-paper/70 p-4">
       <div className="flex items-baseline justify-between gap-2">
@@ -51,10 +53,10 @@ function SourceCard({ passage, label, claim }: { passage: Passage; label: string
       <div className="mt-3 flex flex-wrap gap-3 text-sm">
         <button
           type="button"
-          onClick={() => openLocalFile(passage.file_path, api.paperUrl(passage.paper_id, passage.page))}
+          onClick={() => setViewing(true)}
           className="inline-flex items-center gap-1 font-bold text-accent-ink hover:underline"
         >
-          <FileText aria-hidden className="size-4" /> Abrir PDF (p. {passage.page})
+          <FileSearch aria-hidden className="size-4" /> Ver en el PDF (p. {passage.page})
         </button>
         {passage.metadata.doi && (
           <button
@@ -66,6 +68,11 @@ function SourceCard({ passage, label, claim }: { passage: Passage; label: string
           </button>
         )}
       </div>
+      {viewing && (
+        <Suspense fallback={<p className="mt-2 text-sm text-ink-soft">Abriendo el visor…</p>}>
+          <PdfViewer passage={passage} citation={label} onClose={() => setViewing(false)} />
+        </Suspense>
+      )}
     </li>
   );
 }
@@ -271,7 +278,8 @@ export function ReviewScreen({ draftId }: { draftId: string }) {
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement;
-      if (["TEXTAREA", "INPUT"].includes(target.tagName) || event.metaKey || event.ctrlKey || exporting) return;
+      const typing = ["TEXTAREA", "INPUT"].includes(target.tagName);
+      if (typing || event.metaKey || event.ctrlKey || exporting || document.querySelector("dialog[open]")) return;
       const key = event.key.toLowerCase();
       if (key === "n") goNext();
       if (key === "a" && current && needsReview(current)) act("accept");
