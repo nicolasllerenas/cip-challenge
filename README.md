@@ -11,7 +11,7 @@ Este repositorio muestra cómo fluye esa solicitud de punta a punta, con el dise
 | Entregable | Dónde |
 |---|---|
 | Tablero de Excalidraw (wireframes + arquitectura) | [`board/cip-research-assistant.excalidraw`](board/) |
-| Guion del video de 5 minutos | [`docs/video-script.md`](docs/video-script.md) · [cómo preparar la grabación](docs/grabacion.md) |
+| Video de presentación (Loom) | [Ver el video](https://www.loom.com/share/f937e33d06e84ff8b180d77eca5f2366) · [cómo se preparó la grabación](docs/grabacion.md) |
 | Decisiones de UX | [`docs/ux.md`](docs/ux.md) |
 | Arquitectura y profundizaciones | [`docs/architecture.md`](docs/architecture.md) · [ADRs](docs/adr) |
 | Prototipo end-to-end | `apps/` + `services/` |

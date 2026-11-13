@@ -1,6 +1,6 @@
 # Guía para grabar el video
 
-Todo lo que necesitas para grabar el Loom sin sorpresas. El guion con los tiempos está en [`video-script.md`](video-script.md).
+Todo lo que necesitas para grabar el Loom sin sorpresas.
 
 ## 1. Una sola vez (≈10 minutos)
 
@@ -37,7 +37,7 @@ Todo lo que necesitas para grabar el Loom sin sorpresas. El guion con los tiempo
 
 ## 3. Momentos de demo en vivo (opcionales, ≈40 s en total)
 
-| Cuándo (ver guion) | Qué hacer en la app |
+| Momento del video | Qué hacer en la app |
 |---|---|
 | ⑥ Revisión | Clic en una afirmación subrayada → muestra el panel → **Ver en el PDF** → cierra → presiona `A` y luego `Ctrl+Z` |
 | ⑦ Exportar | **Exportar** → **Exportar** → **Descargar** → abre el `.docx` y muestra un comentario de revisión en Word |
